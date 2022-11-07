@@ -1,12 +1,16 @@
-from requests.exceptions import ConnectionError
+import requests
 
 import curses, curses.textpad
-import subprocess, sys
+import subprocess, sys, json
 
-from api import Session
+class Session():
+    def __init__(self):
+        self.client = requests.Session()
 
-def check_exit(x):
-    pass
+    def api_request(self, url='/', method='get', **kwargs):
+        return json.loads(getattr(self.client, method)('https://api.warframe.market/v1' + url, **kwargs).text)
+
+
 
 class GUI():
     def __init__(self, root, h, w, y, x):
@@ -158,6 +162,6 @@ try:
     curses.wrapper(main)
 except KeyboardInterrupt:
     print('Exiting')
-except ConnectionError:
+except requests.exceptions.ConnectionError:
     print("No Internet")
     sys.exit(1)
