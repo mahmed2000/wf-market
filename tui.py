@@ -82,13 +82,12 @@ class App():
         self.gui.orders_box.refresh()
 
     def decide_state(self):
-        match self.state:
-            case 0:
-                return self.search
-            case 1:
-                return self.select_item
-            case 2:
-                return self.select_order
+        if self.state == 0:
+            return self.search
+        elif self.state == 1:
+            return self.select_item
+        elif self.state == 2:
+            return self.select_order
 
     def run(self):
         self.show_gui()
