@@ -43,6 +43,7 @@ class App():
         self.root = root
         self.gui = GUI(self.root, *self.root.getmaxyx(), 0, 0)
         self.client = Session()
+        self.item_list = self.client.api_request(url = '/items').get('payload').get('items')
 
     def show_gui(self):
         self.root.clear()
@@ -50,10 +51,6 @@ class App():
 
     def update_item_search_results(self):
         search_str = self.gui.search_in.gather()
-        try:
-            self.item_list
-        except:
-            self.item_list = self.client.api_request(url = '/items').get('payload').get('items')
         items = [item for item in self.item_list if search_str.strip().lower() in item.get('item_name').lower()][:self.gui.results_box.getmaxyx()[0] - 2]
         self.gui.results_box.clear()
         self.gui.results_box.border()
