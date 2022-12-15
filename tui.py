@@ -3,6 +3,7 @@ import requests
 import curses, curses.textpad
 import subprocess, sys, json
 
+
 class Session():
     def __init__(self):
         self.client = requests.Session()
@@ -115,7 +116,8 @@ class App():
             x = self.root.getch()
 
         if x == 10:
-            self.selected_item = self.items[self.root.getyx()[0] - 4]
+            subprocess.run(f'echo \'{self.gui.results_box.getyx()}\' | xclip -sel c', shell = True)
+            self.selected_item = self.items[self.gui.results_box.getyx()[0] - 1]
             self.update_orders_results()
             self.state = 2
         else:
